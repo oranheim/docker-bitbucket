@@ -1,6 +1,4 @@
 FROM java:openjdk-7-jre
-MAINTAINER Atlassian Stash Team
-
 
 ENV STASH_VERSION 3.9.2
 
