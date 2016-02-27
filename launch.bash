@@ -3,6 +3,8 @@ set -o errexit
 
 . /usr/local/share/atlassian/common.bash
 
+set_java_home
+
 sudo /usr/local/bin/own-volume
 umask 0027
 
