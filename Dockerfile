@@ -1,59 +1,23 @@
-FROM java:openjdk-7-jre
+FROM docker-atlassian-base
+MAINTAINER Ove Ranheim <oranheim@gmail.com>
 
-ENV STASH_VERSION 3.9.2
+# Install Stash
 
-ENV DOWNLOAD_URL        https://downloads.atlassian.com/software/stash/downloads/atlassian-stash-
+ENV BITBUCKET_VERSION 4.3.2
+RUN curl -Lks http://www.atlassian.com/software/stash/downloads/binary/atlassian-bitbucket-${BITBUCKET_VERSION}.tar.gz -o /root/bitbucket.tar.gz
+RUN /usr/sbin/useradd --create-home --home-dir /opt/bitbucket --groups atlassian --shell /bin/bash bitbucket
+RUN tar zxf /root/bitbucket.tar.gz --strip=1 -C /opt/bitbucket
+RUN sed -i -e "s/^#!\/bin\/sh/#!\/bin\/bash/" /opt/bitbucket/bin/catalina.sh
+RUN mv /opt/bitbucket/conf/server.xml /opt/bitbucket/conf/server-backup.xml
+RUN chown -R bitbucket:bitbucket /opt/bitbucket
 
-# https://confluence.atlassian.com/display/STASH/Stash+home+directory
-ENV STASH_HOME          /var/atlassian/application-data/stash
+ENV CONTEXT_PATH ROOT
+ADD launch.bash /launch
 
-# Install Atlassian Stash to the following location
-ENV STASH_INSTALL_DIR   /opt/atlassian/stash
+# Launching Stash
 
-
-
-# Use the default unprivileged account. This could be considered bad practice
-# on systems where multiple processes end up being executed by 'daemon' but
-# here we only ever run one process anyway.
-ENV RUN_USER            daemon
-ENV RUN_GROUP           daemon
-
-
-# Install git, download and extract Stash and create the required directory layout.
-# Try to limit the number of RUN instructions to minimise the number of layers that will need to be created.
-RUN apt-get update -qq                                                            \
-    && apt-get install -y --no-install-recommends                                 \
-            git                                                                   \
-    && apt-get clean autoclean                                                    \
-    && apt-get autoremove --yes                                                   \
-    && rm -rf                  /var/lib/{apt,dpkg,cache,log}/
-
-RUN mkdir -p                             $STASH_INSTALL_DIR
-
-
-RUN curl -L --silent                     ${DOWNLOAD_URL}${STASH_VERSION}.tar.gz | tar -xz --strip=1 -C "$STASH_INSTALL_DIR" \
-    && mkdir -p                          ${STASH_INSTALL_DIR}/conf/Catalina      \
-    && chmod -R 700                      ${STASH_INSTALL_DIR}/conf/Catalina      \
-    && chmod -R 700                      ${STASH_INSTALL_DIR}/logs               \
-    && chmod -R 700                      ${STASH_INSTALL_DIR}/temp               \
-    && chmod -R 700                      ${STASH_INSTALL_DIR}/work               \
-    && chown -R ${RUN_USER}:${RUN_GROUP} ${STASH_INSTALL_DIR}/logs               \
-    && chown -R ${RUN_USER}:${RUN_GROUP} ${STASH_INSTALL_DIR}/temp               \
-    && chown -R ${RUN_USER}:${RUN_GROUP} ${STASH_INSTALL_DIR}/work               \
-    && chown -R ${RUN_USER}:${RUN_GROUP} ${STASH_INSTALL_DIR}/conf
-
-USER ${RUN_USER}:${RUN_GROUP}
-
-VOLUME ["${STASH_INSTALL_DIR}"]
-
-# HTTP Port
-EXPOSE 7990
-
-# SSH Port
-EXPOSE 7999
-
-WORKDIR $STASH_INSTALL_DIR
-
-# Run in foreground
-CMD ["./bin/start-stash.sh", "-fg"]
-
+WORKDIR /opt/bitbucket
+VOLUME /opt/atlassian-home
+EXPOSE 7990 7999
+USER bitbucket
+CMD ["/launch"]
