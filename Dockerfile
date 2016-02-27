@@ -13,6 +13,7 @@ RUN chown -R bitbucket:bitbucket /opt/bitbucket
 
 ENV CONTEXT_PATH ROOT
 ADD launch.bash /launch
+RUN chmod +x /launch
 
 # Launching Stash
 

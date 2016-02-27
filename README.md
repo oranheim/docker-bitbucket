@@ -1,2 +1,4 @@
 # docker-stash
-Docker Atlassian Stash
+Docker Atlassian Bitbucket
+
+docker build -t docker-bitbucket .
