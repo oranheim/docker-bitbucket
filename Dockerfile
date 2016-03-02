@@ -1,24 +1,31 @@
-FROM docker-atlassian-base
+FROM descoped/docker-atlassian-base
 MAINTAINER Ove Ranheim <oranheim@gmail.com>
 
-# Install Stash
-
+# Install Bitbucket
 ENV BITBUCKET_VERSION 4.3.2
-RUN curl -Lks http://www.atlassian.com/software/stash/downloads/binary/atlassian-bitbucket-${BITBUCKET_VERSION}.tar.gz -o /root/bitbucket.tar.gz
-RUN /usr/sbin/useradd --create-home --home-dir /opt/bitbucket --groups atlassian --shell /bin/bash bitbucket
-RUN tar zxf /root/bitbucket.tar.gz --strip=1 -C /opt/bitbucket
-RUN sed -i -e "s/^#!\/bin\/sh/#!\/bin\/bash/" /opt/bitbucket/bin/catalina.sh
-RUN mv /opt/bitbucket/conf/server.xml /opt/bitbucket/conf/server-backup.xml
-RUN chown -R bitbucket:bitbucket /opt/bitbucket
 
-ENV CONTEXT_PATH ROOT
-ADD launch.bash /launch
-RUN chmod +x /launch
+ENV BITBUCKET_INST=/opt/bitbucket
+ENV BITBOCKET_HOME=/opt/atlassian-home
 
-# Launching Stash
+ENV UID=bitbucket
+ENV GID=atlassian
 
-WORKDIR /opt/bitbucket
-VOLUME /opt/atlassian-home
+ADD configure.bash /configure
+RUN chmod +x /configure
+
+RUN curl -Lks http://www.atlassian.com/software/stash/downloads/binary/atlassian-bitbucket-$BITBUCKET_VERSION.tar.gz -o /root/bitbucket.tar.gz \
+    && useradd -r --create-home --home-dir $BITBUCKET_INST --groups $GID --shell /bin/bash $UID \
+    && tar zxf /root/bitbucket.tar.gz --strip=1 -C $BITBUCKET_INST \
+    && rm /root/bitbucket.tar.gz \
+    && mv $BITBUCKET_INST/conf/server.xml $BITBUCKET_INST/conf/server-backup.xml
+
+# Launching Bitbucket
+WORKDIR $BITBUCKET_INST
+VOLUME $BITBOCKET_HOME
+
+COPY entrypoint.bash /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
 EXPOSE 7990 7999
-USER bitbucket
-CMD ["/launch"]
+CMD ["bin/start-bitbucket.sh", "-fg"]
