@@ -4,7 +4,7 @@ set -e
 if [[ "$PATH" == ?(*:)"$JAVA_HOME/bin"?(:*) ]]; then
     export JAVA_HOME=/opt/jdk
     export PATH=$PATH:$JAVA_HOME/bin
-    export BITBUCKET_HOME=/opt/atlassian-home
+    export BITBUCKET_HOME;
 fi
 
 # allow the container to be started with `--user`
