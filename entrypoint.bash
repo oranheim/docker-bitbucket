@@ -16,4 +16,5 @@ if [ "$1" = 'bin/start-bitbucket.sh' -a "$(id -u)" = '0' ]; then
     exec gosu $UID "$BASH_SOURCE" "$@"
 fi
 
+umask 0027
 exec "$@"
