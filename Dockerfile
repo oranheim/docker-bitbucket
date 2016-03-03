@@ -5,7 +5,7 @@ MAINTAINER Ove Ranheim <oranheim@gmail.com>
 ENV BITBUCKET_VERSION 4.3.2
 
 ENV BITBUCKET_INST=/opt/bitbucket
-ENV BITBOCKET_HOME=/opt/atlassian-home
+ENV BITBOCKET_HOME=/var/atlassian-home
 
 ENV UID=bitbucket
 ENV GID=atlassian
