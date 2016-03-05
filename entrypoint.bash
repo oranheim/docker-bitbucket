@@ -1,11 +1,7 @@
 #!/bin/bash
 set -e
 
-if [[ "$PATH" == ?(*:)"$JAVA_HOME/bin"?(:*) ]]; then
-    export JAVA_HOME=/opt/jdk
-    export PATH=$PATH:$JAVA_HOME/bin
-    export BITBUCKET_HOME;
-fi
+. docker-java-home
 
 # allow the container to be started with `--user`
 if [ "$1" = 'bin/start-bitbucket.sh' -a "$(id -u)" = '0' ]; then
