@@ -8,7 +8,7 @@ For all other aspects about configuring, using and administering bitbucket pleas
 
 ## How to use?
 
-The examples shown below assumes you will use a MySQL database.
+The examples shown below assume you will use a MySQL database.
 
 > Please pay attention to the IP addresses used in the examples below. The IP `192.168.1.2` refers to your host OS. The IP `172.17.0.2` refers to the MySQL database and the IP `172.17.0.3` to the newly installed Bitbucket guest OS. To figure out the IP in your guest OS you can either connect to a running instance by issuing `docker exec -it [container-name] /bin/bash` and do `ifconfig` or locate the IP from `docker inspect [container-name]`.
 
@@ -118,8 +118,8 @@ Configuration options are set by setting environment variables when running the 
 
 Variable     | Function
 -------------|------------------------------
-CONTEXT_PATH | Context path of the stash webapp. You can set this to add a path prefix to the url used to access the webapp. i.e. setting this to ```stash``` will change the url to http://192.168.1.2:7990/bitbucket/. The value ```ROOT``` is reserved to mean that you don't want a context path prefix. Defaults to ```ROOT```
-DATABASE_URL | Connection URL specifying where and how to connect to a database dedicated to stash. This variable is optional and if specified will cause the Jira setup wizard to skip the database setup set.
+CONTEXT_PATH | Context path of the Bitbucket webapp. You can set this to add a path prefix to the url used to access the webapp. i.e. setting this to ```bitbucket``` will change the url to http://192.168.1.2:7990/bitbucket/. The value ```ROOT``` is reserved to mean that you don't want a context path prefix. Defaults to ```ROOT```
+DATABASE_URL | Connection URL specifying where and how to connect to a database dedicated to Bitbucket. This variable is optional and if specified will cause the Bitbucket setup wizard to skip the database setup set.
 
 
 ## Source code
