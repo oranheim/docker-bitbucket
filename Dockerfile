@@ -5,7 +5,7 @@ MAINTAINER Ove Ranheim <oranheim@gmail.com>
 ENV BITBUCKET_VERSION 4.14.1
 
 ENV BITBUCKET_INST=/opt/bitbucket
-ENV BITBOCKET_HOME=/var/atlassian-home
+ENV BITBUCKET_HOME=/var/atlassian-home
 
 ENV UID=bitbucket
 ENV GID=atlassian
@@ -21,7 +21,7 @@ RUN curl -Lks http://www.atlassian.com/software/stash/downloads/binary/atlassian
 
 # Launching Bitbucket
 WORKDIR $BITBUCKET_INST
-VOLUME $BITBOCKET_HOME
+VOLUME $BITBUCKET_HOME
 
 COPY entrypoint.bash /entrypoint.sh
 RUN chmod +x /entrypoint.sh
