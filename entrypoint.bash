@@ -6,7 +6,7 @@ set -e
 # allow the container to be started with `--user`
 if [ "$1" = 'bin/start-bitbucket.sh' -a "$(id -u)" = '0' ]; then
     if [ ! -f $BITBUCKET_INST/conf/server.xml ]; then /configure; fi
-    rm -f $BITBOCKET_HOME/.jira-home.lock
+    rm -f $BITBUCKET_HOME/.jira-home.lock
     chown -R $UID:$UID $BITBUCKET_INST
     chown -R $UID:$GID $BITBOCKET_HOME
     exec gosu $UID "$BASH_SOURCE" "$@"
