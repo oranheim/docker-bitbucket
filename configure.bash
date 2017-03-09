@@ -26,3 +26,11 @@ jdbc.password=$DB_PASSWORD
 EOF
   fi
 fi
+
+if [ -n "$USE_SSL_PROXY" ]; then
+  echo "Use SSL Proxy"
+  cp ${BITBUCKET_INST}/conf/server.xml ${BITBUCKET_INST}/conf/server-backup.xml
+  xmlstarlet ed --insert "/Server/Service/Connector" --type attr -n scheme -v "https" ${BITBUCKET_INST}/conf/server-backup.xml |
+    xmlstarlet ed --insert "/Server/Service/Connector" --type attr -n proxyName -v "$USE_SSL_PROXY" |
+    xmlstarlet ed --insert "/Server/Service/Connector" --type attr -n proxyPort -v "443" > ${BITBUCKET_INST}/conf/server.xml
+fi
