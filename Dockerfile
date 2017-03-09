@@ -13,6 +13,10 @@ ENV GID=atlassian
 ADD configure.bash /configure
 RUN chmod +x /configure
 
+RUN DEBIAN_FRONTEND=noninteractive apt-get update
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -q -y ssh-client git \
+    && rm -rf /var/lib/apt/lists/*
+    
 RUN curl -Lks http://www.atlassian.com/software/stash/downloads/binary/atlassian-bitbucket-$BITBUCKET_VERSION.tar.gz -o /root/bitbucket.tar.gz \
     && useradd -r --create-home --home-dir $BITBUCKET_INST --groups $GID --shell /bin/bash $UID \
     && tar zxf /root/bitbucket.tar.gz --strip=1 -C $BITBUCKET_INST \
