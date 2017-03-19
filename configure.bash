@@ -32,5 +32,6 @@ if [ -n "$USE_SSL_PROXY" ]; then
   cp ${BITBUCKET_INST}/conf/server.xml ${BITBUCKET_INST}/conf/server-backup.xml
   xmlstarlet ed --insert "/Server/Service/Connector" --type attr -n scheme -v "https" ${BITBUCKET_INST}/conf/server-backup.xml |
     xmlstarlet ed --insert "/Server/Service/Connector" --type attr -n proxyName -v "$USE_SSL_PROXY" |
-    xmlstarlet ed --insert "/Server/Service/Connector" --type attr -n proxyPort -v "443" > ${BITBUCKET_INST}/conf/server.xml
+    xmlstarlet ed --insert "/Server/Service/Connector" --type attr -n proxyPort -v "443"  |
+    xmlstarlet ed --insert "/Server/Service/Connector" --type attr -n secure -v "true" > ${BITBUCKET_INST}/conf/server.xml
 fi
