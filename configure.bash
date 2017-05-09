@@ -9,7 +9,7 @@ else
   CONTEXT_PATH="/$CONTEXT_PATH"
 fi
 
-xmlstarlet ed -u '//Context/@path' -v "$CONTEXT_PATH" conf/server-backup.xml > conf/server.xml
+#xmlstarlet ed -u '//Context/@path' -v "$CONTEXT_PATH" conf/server-backup.xml > conf/server.xml
 
 if [ -n "$DATABASE_URL" ]; then
   extract_database_url "$DATABASE_URL" DB /opt/bitbucket/lib
@@ -27,11 +27,11 @@ EOF
   fi
 fi
 
-if [ -n "$USE_SSL_PROXY" ]; then
-  echo "Use SSL Proxy"
-  cp ${BITBUCKET_INST}/conf/server.xml ${BITBUCKET_INST}/conf/server-backup.xml
-  xmlstarlet ed --insert "/Server/Service/Connector" --type attr -n scheme -v "https" ${BITBUCKET_INST}/conf/server-backup.xml |
-    xmlstarlet ed --insert "/Server/Service/Connector" --type attr -n proxyName -v "$USE_SSL_PROXY" |
-    xmlstarlet ed --insert "/Server/Service/Connector" --type attr -n proxyPort -v "443"  |
-    xmlstarlet ed --insert "/Server/Service/Connector" --type attr -n secure -v "true" > ${BITBUCKET_INST}/conf/server.xml
-fi
+#if [ -n "$USE_SSL_PROXY" ]; then
+#  echo "Use SSL Proxy"
+#  cp ${BITBUCKET_INST}/conf/server.xml ${BITBUCKET_INST}/conf/server-backup.xml
+#  xmlstarlet ed --insert "/Server/Service/Connector" --type attr -n scheme -v "https" ${BITBUCKET_INST}/conf/server-backup.xml |
+#    xmlstarlet ed --insert "/Server/Service/Connector" --type attr -n proxyName -v "$USE_SSL_PROXY" |
+#    xmlstarlet ed --insert "/Server/Service/Connector" --type attr -n proxyPort -v "443"  |
+#    xmlstarlet ed --insert "/Server/Service/Connector" --type attr -n secure -v "true" > ${BITBUCKET_INST}/conf/server.xml
+#fi
