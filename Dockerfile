@@ -2,7 +2,7 @@ FROM descoped/atlassian-base
 MAINTAINER Ove Ranheim <oranheim@gmail.com>
 
 # Install Bitbucket
-ENV BITBUCKET_VERSION 4.14.1
+ENV BITBUCKET_VERSION 5.0.0
 
 ENV BITBUCKET_INST=/opt/bitbucket
 ENV BITBUCKET_HOME=/var/atlassian-home
