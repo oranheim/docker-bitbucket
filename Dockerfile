@@ -1,6 +1,8 @@
 FROM descoped/atlassian-base
 MAINTAINER Ove Ranheim <oranheim@gmail.com>
 
+# demo of docker hub triggered build
+
 # Install Bitbucket
 ENV BITBUCKET_VERSION 5.0.0
 
