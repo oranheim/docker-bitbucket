@@ -4,7 +4,7 @@ MAINTAINER Ove Ranheim <oranheim@gmail.com>
 # demo of docker hub triggered build
 
 # Install Bitbucket
-ENV BITBUCKET_VERSION 5.0.0
+ENV BITBUCKET_VERSION 5.8.1
 
 ENV BITBUCKET_INST=/opt/bitbucket
 ENV BITBUCKET_HOME=/var/atlassian-home
