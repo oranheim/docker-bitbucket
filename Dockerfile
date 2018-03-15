@@ -15,8 +15,10 @@ ENV GID=atlassian
 ADD configure.bash /configure
 RUN chmod +x /configure
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get update
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -q -y ssh-client git \
+RUN DEBIAN_FRONTEND=noninteractive apt-get update \
+    && add-apt-repository -y ppa:git-core/ppa \
+    && apt-get update \
+    && apt-get install -q -y ssh-client git \
     && rm -rf /var/lib/apt/lists/*
     
 RUN curl -Lks http://www.atlassian.com/software/stash/downloads/binary/atlassian-bitbucket-$BITBUCKET_VERSION.tar.gz -o /root/bitbucket.tar.gz \
